@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Except for the following files and directories
+!isdpainn
+!setup.*
+!__version__.py
+!README.md
+!LICENSE
+!tests
