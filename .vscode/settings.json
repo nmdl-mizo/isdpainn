@@ -1,0 +1,10 @@
+{
+    "python.testing.pytestArgs": ["tests"],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.extraPaths": [
+        "./src/ocp-models"
+    ]
+}
