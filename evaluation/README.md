@@ -11,18 +11,43 @@ The structures of the molecules in the corresponding QM9 dataset [2, 3] were obt
 In the actual validation experiment, a vector of 256 lengths sampled at equal intervals from 288eV to 310eV was interpolated and used for training after integration with the structural data.
 The class `ck_edge_maker.dataset.CK`, which inherits from torch_geometric's InmemoryDataset, is available in the Python library [ck-edge-maker](https://github.com/nmdl-mizo/ck_edge_maker) on GitHub[5].
 
-## Training scripts
-
-The code for training is described in "scripts/train.py".
-
 ## Model and training parameters
 
 Model and training parameters are described in "scripts/config-defaults.yaml".
 
+## Scripts for training
+
+The code for training is "scripts/train.py".
+To run the script, follow the procedure below:
+1. Prepare Python environment with PyTorch Geometric and install [isdpainn](https://github.com/nmdl-mizo/ck_edge_maker) and [ck-edge-maker](https://github.com/nmdl-mizo/ck_edge_maker) installed. GPU environment is recommended.
+1. Download the site-specific stectral dataset named "site_spectra_0.5eV.hdf5" from [FigShare](https://figshare.com/ndownloader/files/31947896) and place it under "./dataset/raw" directory.
+1. Check the model and training parameters in "config-defaults.yaml" and modify it if you need.
+1. Run `./train.py -l`.
+
 ## Trained model checkpoint
 
-The weights of the results trained under the conditions described in "scripts/config-defaults.yaml" are available at the following URL.
+The weights and training history of the model under the conditions described in "scripts/config-defaults.yaml" are available at the following URL.
 
+
+
+The model weight can be loaded as follows:
+```Python
+from inspect import signature
+import torch
+from isdpainn import ISDPaiNN
+from wandb.sdk.lib.config_util import dict_from_config_file
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+config = dict_from_config_file("config-defaults.yaml")
+model = ISDPaiNN(**{
+    key: value
+    for key, value in config.items()
+    if key in signature(ISDPaiNN).parameters.keys()
+})
+model_state_dict = torch.load("model_state.pth", map_location=DEVICE)
+model.load_state_dict(
+    model_state_dict["model_state_dict"]
+)
+```
 
 ## References
 1. Shibata, K., Kikumasa, K., Kiyohara, S. et al. Simulated carbon K edge spectral database of organic molecules. Sci Data 9, 214 (2022). https://doi.org/10.1038/s41597-022-01303-8
