@@ -2,7 +2,7 @@ from tqdm import tqdm
 import numpy as np
 from sklearn.model_selection import train_test_split
 import torch
-from torch.utils.data import DataLoader
+from torch_geometric.loader import DataLoader
 from ck_edge_maker.dataset import CK
 
 class EarlyStopping:
