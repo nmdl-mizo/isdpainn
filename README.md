@@ -63,6 +63,10 @@ You can build the docker image by running `docker build -t isdpainn .` in the re
 A test script for checking invariance and equivariance of the model is available in `tests/test_model.py`.
 You can run the test by `pytest tests/unit_test.py`.
 
+## Evaluation experiment on simulated C-K edge dataset
+Some scripts, weights and description is available for Evaluation experiment on simulated C-K edge dataset.
+Please check [here](/evaluation/README.md).
+
 ## License
 This code is released under the [MIT license](./LICENSE).
 
