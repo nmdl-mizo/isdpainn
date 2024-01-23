@@ -47,6 +47,11 @@ model.load_state_dict(
 )
 ```
 
+## Time comparison between DFT and IDS-PaiNN
+
+The directory "calculation_time_comaprison" contains data and script for the calculation/prediction time for the C-K edge in the dataset by CASTEP code and IDS-PaiNN.
+"time_mol_castep_vs_isdpainn.pkl" contains the data of the calculation time, and "plot_calculation_time_comparison.py" is a script used for making a figure visualizing the dependency on molecular size.
+
 ## References
 1. Shibata, K., Kikumasa, K., Kiyohara, S. et al. Simulated carbon K edge spectral database of organic molecules. Sci Data 9, 214 (2022). https://doi.org/10.1038/s41597-022-01303-8
 2. Ruddigkeit, L., van Deursen, R., Blum, L. C. & Reymond, J.-L. Enumeration of 166 billion organic small molecules in the chemical universe database GDB-17. Journal of Chemical Information and Modeling 52, 2864–2875, (2012). https://doi.org/10.1021/ci300415d
