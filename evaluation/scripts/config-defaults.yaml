@@ -1,0 +1,57 @@
+# model param
+message_factor_normalize:
+  value: false
+symmetric_message:
+  value: true
+hidden_channels:
+  value: 512
+out_channels:
+  value: 256
+num_layers:
+  value: 8
+num_out_layers:
+  value: 1
+num_rbf:
+  value: 64
+use_pbc:
+  value: false
+num_elements:
+  value: 9
+max_neighbors:
+  value: 50
+cutoff:
+  value: 8.0
+seed:
+  value: 42
+
+# data param
+energies:
+  value: [288, 310, 256]
+directional:
+  value: true
+test_size:
+  value: 0.2
+val_size:
+  value: 0.2
+#scaffold_split:
+#  value: true
+
+# train param
+loss_func:
+  value: "mse"
+batch_size:
+  value: 32
+shuffle:
+  value: true
+epochs:
+  value: 10000
+lr:
+  value: 0.0001
+patience:
+  value: 40
+verbose:
+  value: true
+model_state_path:
+  value: "model_state.pth"
+optimizer:
+  value: "Adam"
