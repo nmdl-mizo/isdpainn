@@ -132,39 +132,9 @@ def mean_absolute_error(y, y_pred):
     return (y - y_pred).abs().mean(-1)
 
 
-def wasserstein_distance(y_true, y_pred, p=2, normalize=False, reduce="mean"):
-    """Wasserstein distance
-
-    Wasserstein distance should be implemented as optional metric for loss function
-    defined as disscussed in [doi:10.26434/chemrxiv-2023-j1szt]
-    W_p(alpha, beta) = (int_R |C_alpha(x) - C_beta(x)|^p dx)^{1/p},
-    where C_alpha is the cumulative distribution function (CDF) of alpha(x)
-
-    Args:
-        y_true (torch.Tensor): (n_sample, n_dim)
-        y_pred (torch.Tensor): (n_sample, n_dim)
-        p (int, optional): index p. Defaults to 2.
-        normalize (bool, optional): normalize inputs into probability distribution.
-            Defaults to False.
-
-    Returns:
-        torch.Tensor: (n_sample,)
-    """
-    if normalize:
-        y_true /= y_true.sum(dim=-1, keepdim=True)
-        y_pred /= y_pred.sum(dim=-1, keepdim=True)
-    y_true = torch.cumsum(y_true, dim=-1)
-    y_pred = torch.cumsum(y_pred, dim=-1)
-    if reduce == "mean":
-        return (y_true - y_pred).abs().pow(p).sum(-1).pow(1. / p)
-    elif reduce == "sum":
-        return (y_true - y_pred).abs().pow(p).mean(-1).pow(1. / p)
-
-
 loss_func_dict = {
     "mse": mean_squared_error,
     "mae": mean_absolute_error,
-    "wd": wasserstein_distance
 }
 
 
