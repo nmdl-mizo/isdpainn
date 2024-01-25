@@ -26,7 +26,7 @@ To run the script, follow the procedure below:
 
 ## Trained model checkpoint
 
-The weights of the trained model and MSE for random split and scaffold split discussed in this papaer are available at https://doi.org/10.5281/zenodo.10547719.
+The weights of the trained model and MSE for random split and scaffold split discussed in the paper are available at https://doi.org/10.5281/zenodo.10547719.
 
 The model weight can be loaded as follows:
 ```Python
