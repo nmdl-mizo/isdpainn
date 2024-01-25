@@ -52,6 +52,30 @@ model.load_state_dict(
 The directory "calculation_time_comaprison" contains data and script for the calculation/prediction time for the C-K edge in the dataset by CASTEP code and IDS-PaiNN.
 "time_mol_castep_vs_isdpainn.pkl" contains the data of the calculation time, and "plot_calculation_time_comparison.py" is a script used for making a figure visualizing the dependency on molecular size.
 
+## Ablation experiments
+
+To assess the contribution of individual components within our model, we conducted ablation experiments by selectively modifying components of ISD-PaiNN and comparing the resulting prediction accuracies.
+Four distinct models were trained for the ablation experiments:
+
+1. ISD-PaiNN
+  The same model discussed and evaluated in the main text.
+
+2. Without Symmetric Message Layer (w/o SM)
+  This model omits the inversion symmetry and adopts the same message block as the original PaiNN.
+
+3. Without Directional Embedding (w/o DE)
+  In this model, node vector features are initialized with zero vectors, eliminating the directional embedding component present in the original PaiNN.
+
+4. Without Symmetric Message Passing and Directional Embedding (w/o DE-SM)
+  This model combines the modifications from both (2) and (3), removing both the symmetric message passing block and utilizing zero vector initialization for node vector features.
+  This model is most similar to the original PaiNN model in terms of the message passing block and node vector feature initialization.
+  The difference between this model and the original PaiNN model is the output block for predicting site-specific spectra.
+
+The conversion from node-specific features to site-specific features is performed by the same output block as in ISD-PaiNN. Note that the original PaiNN model itself was not included in the ablation experiments, as its output is designed to predict energy or forces and is not tailored for predicting site-specific anisotropic spectra.
+These ablation experiments were performed under random splitting conditions, utilizing the same training and test data as presented in the paper.
+
+The configuration, weights, and MSEs of the models for the ablation experiments are available at https://doi.org/10.5281/zenodo.10566201.
+
 ## References
 1. Shibata, K., Kikumasa, K., Kiyohara, S. et al. Simulated carbon K edge spectral database of organic molecules. Sci Data 9, 214 (2022). https://doi.org/10.1038/s41597-022-01303-8
 2. Ruddigkeit, L., van Deursen, R., Blum, L. C. & Reymond, J.-L. Enumeration of 166 billion organic small molecules in the chemical universe database GDB-17. Journal of Chemical Information and Modeling 52, 2864–2875, (2012). https://doi.org/10.1021/ci300415d
