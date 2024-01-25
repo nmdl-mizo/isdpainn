@@ -1,6 +1,6 @@
 # Inversion Symmetry-aware Directional PaiNN (ISD-PaiNN)
 
-[![DOI](https://zenodo.org/badge/433655152.svg)](https://zenodo.org/doi/10.5281/zenodo.6352122)
+[![DOI](https://zenodo.org/badge/744791559.svg)](https://zenodo.org/doi/10.5281/zenodo.10554764)
 
 ## Description
 This model is proposed in a paper
