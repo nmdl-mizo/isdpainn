@@ -18,8 +18,9 @@ config_path=Path(data_dir, "config-defaults_random_split.yaml")
 model_state_path=Path(data_dir, "model_state_random_split.pt")
 
 # parameters for data
+upload_id = "T-aDo4HSTjufWxmV6vZXHQ"
 base_dir = Path(f"../data/nomad")
-zip_path = Path(base_dir, "aromatic_amino_acids.zip")
+zip_path = Path(base_dir, f"{upload_id}.zip")
 
 # extract the zip file
 calc_base_dir = Path(zip_path.parent, "aromatic_amino_acids_elnes")

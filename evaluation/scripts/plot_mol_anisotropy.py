@@ -19,8 +19,9 @@ config_path=Path(data_dir, "config-defaults_random_split.yaml")
 model_state_path=Path(data_dir, "model_state_random_split.pt")
 
 # parameters for data
+upload_id = "loddw6wwSbKmyTgsHuX6PQ"
 base_dir = Path(f"../data/nomad")
-zip_path = Path(base_dir, "rotated_benzene.zip")
+zip_path = Path(base_dir, f"{upload_id}.zip")
 
 # extract the zip file
 calc_base_dir = Path(zip_path.parent, "benzene_rotation_x")
