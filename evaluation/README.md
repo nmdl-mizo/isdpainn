@@ -35,19 +35,17 @@ pip install deepchem # for scaffold split
 
 To run the scripts for evaluation, dataset must be downloaded.
 
-The trained weights, settings, and MSE for each of the random and scaffold splits and the Ablation experiment have been uploaded to zenodo.
+The trained weights, settings, and MSE for each of the random and scaffold splits and the ablation experiment have been uploaded to zenodo.
 
 The raw files for the rotated benzene and the CASTEP results for the aromatic amino acids are uploaded to NOMAD.
 
 The files in zenodo and NOMAD can be downloaded by running `evaluation/scripts/download.py`.
 
-Please download the site-specific C-K edge spectra dataset named "site_spectra_0.5eV.hdf5" from [FigShare](https://figshare.com/ndownloader/files/31947896) and place it under `evaluation/dataset/raw` directory.
+Seperately, download the site-specific C-K edge spectra dataset named "site_spectra_0.5eV.hdf5" from [FigShare](https://figshare.com/ndownloader/files/31947896) and place it under `evaluation/dataset/raw` directory.
+This file contains the carbon K-edge spectra data smoothed by a Gaussian filter at 0.5 eV for each site including intensities corresponding to the x-, y-, and z-directions.
+This data is published as related data in the prior literature [1].
 
-### Dataset source and code for preprocessing dataset
-
-The carbon K-edge spectra data were smoothed by a Gaussian filter at 0.5 eV for each site and include intensities in the x-, y-, and z-directions.
-This data is published under the name "site_spectra_0.5eV.hdf5" as related data in the prior literature [1] at the following FigShare URL:
-https://figshare.com/ndownloader/files/31947896
+### Code for preprocessing dataset
 
 The structures of the molecules in the corresponding QM9 dataset [2, 3] were obtained using `torch_geometric.dataset.qm9.QM9` from the Python library [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) [4].
 
