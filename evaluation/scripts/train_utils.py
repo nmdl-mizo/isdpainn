@@ -84,7 +84,7 @@ def prepare_dataset(
             "scaffold_split == True is specified."
             "Use deepchem.splits.ScaffoldSplitter."
         )
-        smiles_ck = torch.load("smiles_ck.pt")
+        smiles_ck = torch.load("../data/analyzed/smiles_ck.pt")
         import deepchem as dc
         splitter = dc.splits.ScaffoldSplitter()
         dataset = dc.data.DiskDataset.from_numpy(
