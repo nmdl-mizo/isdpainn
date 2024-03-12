@@ -5,7 +5,6 @@ import torch
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"Use {DEVICE}")
 from torch_geometric.loader import DataLoader
-from torch_geometric.data import Batch
 from torch_scatter import scatter_sum
 from train_utils import prepare_dataset
 from wandb.sdk.lib.config_util import dict_from_config_file
@@ -20,7 +19,8 @@ config_path=Path(data_dir, "config-defaults_random_split.yaml")
 model_state_path=Path(data_dir, "model_state_random_split.pt")
 
 batch_size = 128
-config = dict_from_config_file(config_path)
+config = dict_from_config_file(str(config_path))
+assert config is not None
 
 # parepare model
 model = get_model(config_path=config_path, model_state_path=model_state_path)
@@ -28,6 +28,7 @@ model = get_model(config_path=config_path, model_state_path=model_state_path)
 # prepare dataset split
 config["equiv_site"] = True
 dataset_dict = prepare_dataset(config, as_dict=True)
+assert isinstance(dataset_dict, dict)
 dl = DataLoader(
     dataset_dict["test"],
     batch_size=batch_size,
@@ -78,7 +79,7 @@ with torch.no_grad():
 mse_list = torch.cat(mse_list)
 
 # save mse_list to mse_mol.pt
-torch.save(mse_list, Path("mse_mol.pt"))
+torch.save(mse_list, Path("../data/analyzed/mse_mol.pt"))
 # shape: (n_site_test, 3)
 
 # get index for 0, 25, 50, 75, 100 percentiles of mse
@@ -88,14 +89,14 @@ typical_mol_index = torch.stack([
     for p in percentiles
 ]) // 3
 # save index list to typical_index_mol.pt
-torch.save(typical_mol_index, Path("typical_mol_index.pt"))
+torch.save(typical_mol_index, Path("../data/analyzed/typical_mol_index.pt"))
 
 # plot sorted_mse
 from plot_utils import plot_sorted_mse
 import matplotlib.pyplot as plt
 fig, ax = plot_sorted_mse(
     {
-        "$\sum_nS_n(\mathcal{G}, \hat{\mathbf{n}})$": {"mse": mse_list.cpu().detach()}
+        r"$\sum_nS_n(\mathcal{G}, \hat{\mathbf{n}})$": {"mse": mse_list.cpu().detach()}
     },
     alpha=0.25, marker=".", c="r"
 )
