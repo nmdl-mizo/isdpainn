@@ -1,5 +1,36 @@
 # Description for model evaluation on C-K edge spectra dataset
 
+This repository contains scripts for model evaluation on C-K edge spectra dataset including training and analysis.
+
+## Environment for training and evaluation
+
+All scripts should be run in an appropriate Python environment where CUDA 11.8 is available on a GPU.
+
+To create the Python environment we recommend to create a dedicated environment using conda.
+
+You can use the package list files provided in `evaluation/scripts` for easy construction: 
+
+```bash
+git clone git@github.com:nmdl-mizo/isdpainn.git
+cd isdpainn/evaluation/scripts
+conda env create -f environment.yaml
+pip install -r requirements.txt
+pip install deepchem # for scaffold split
+```
+
+Alternatively, run the following:
+
+```bash
+conda create -n isdpainn python=3.10 pytorch=2.1.0 torchvision torchaudio pytorch-cuda=11.8 pyg=2.4.0 pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pytorch -c nvidia -c pyg
+conda install -qy matplotlib tqdm scikit-learn seaborn
+pip install wandb pymatgen
+pip install git+https://github.com/Open-Catalyst-Project/ocp.git@v0.1.0#egg=ocp-models
+pip install git+https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn
+pip install "ck_edge_maker[pyg] @ git+https://github.com/nmdl-mizo/ck_edge_maker@v1.1.0"
+pip install git+https://github.com/nmdl-mizo/castep_elnes_parser@v1.1.0#egg=ceparser
+pip install deepchem # for scaffold split
+```
+
 ## Dataset source and code for preprocessing dataset
 
 The carbon K-edge spectra data were smoothed by a Gaussian filter at 0.5 eV for each site and include intensities in the x-, y-, and z-directions.
@@ -11,9 +42,11 @@ The structures of the molecules in the corresponding QM9 dataset [2, 3] were obt
 In the actual validation experiment, a vector of 256 lengths sampled at equal intervals from 288eV to 310eV was interpolated and used for training after integration with the structural data.
 The class `ck_edge_maker.dataset.CK`, which inherits from torch_geometric's InmemoryDataset, is available in the Python library [ck-edge-maker](https://github.com/nmdl-mizo/ck_edge_maker) on GitHub[5].
 
-## Model and training parameters
+Default model and training parameters are described in "scripts/config-defaults.yaml".
 
-Model and training parameters are described in "scripts/config-defaults.yaml".
+The trained weights, settings, and MSE for each of the random and scaffold splits and the Ablation experiment have been uploaded to zenodo.
+The raw files for the rotated benzene and the CASTEP results for the aromatic amino acids are uploaded to NOMAD.
+The files in zenodo and NOMAD can be downloaded by running evaluation/scripts/download.py.
 
 ## Scripts for training
 
