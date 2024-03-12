@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-from matplotlib import figure
 from pathlib import Path
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec, GridSpecFromSubplotSpec
-from  wandb.sdk.lib.config_util import dict_from_config_file
+from wandb.sdk.lib.config_util import dict_from_config_file
 # my modules
 from train_utils import prepare_dataset
 from analysis_utils import get_model
@@ -22,6 +21,8 @@ def plot(split_type, config_path, model_state_path, metric_dict_path, percentile
 
     # load config
     config = dict_from_config_file(config_path)
+    if config is None:
+        raise FileNotFoundError(f"{config_path} not found.")
 
     # get model
     model = get_model(config_path=config_path, model_state_path=model_state_path)
@@ -30,14 +31,17 @@ def plot(split_type, config_path, model_state_path, metric_dict_path, percentile
     dataset_dict = prepare_dataset(config, as_dict=True)
 
     # print dataset info
+    assert isinstance(dataset_dict, dict)
+    n_data_dict = {k: v.node_mask.sum().item() for k, v in dataset_dict.items()}
+
     # number of data for train, val, test
-    print(f"Number of data for train: {dataset_dict['train'].node_mask.sum().item()}")
-    print(f"Number of data for val: {dataset_dict['val'].node_mask.sum().item()}")
-    print(f"Number of data for test: {dataset_dict['test'].node_mask.sum().item()}")
+    print(f"Number of data for train: {n_data_dict['train']}")
+    print(f"Number of data for val: {n_data_dict['val']}")
+    print(f"Number of data for test: {n_data_dict['test']}")
     # number of spectra for train, val, test
-    print(f"Number of spectra for train: {dataset_dict['train'].node_mask.sum().item() * 3}")
-    print(f"Number of spectra for val: {dataset_dict['val'].node_mask.sum().item() * 3}")
-    print(f"Number of spectra for test: {dataset_dict['test'].node_mask.sum().item() * 3}")
+    print(f"Number of spectra for train: {n_data_dict['train'] * 3}")
+    print(f"Number of spectra for val: {n_data_dict['val'] * 3}")
+    print(f"Number of spectra for test: {n_data_dict['test'] * 3}")
 
     # load metric dict
     metric_dict = torch.load(metric_dict_path)
@@ -46,7 +50,7 @@ def plot(split_type, config_path, model_state_path, metric_dict_path, percentile
     fig = plt.figure(figsize=(12, 4.5))
     gs = GridSpec(1, 2, width_ratios=[1, 2], figure=fig)
     ax_0 = plt.subplot(gs[0])
-    n_data = dataset_dict["test"].node_mask.sum().item() * 3
+    n_data = n_data_dict["test"] * 3
 
     index_filter = [
         int((n_data - 1)* i)
@@ -67,7 +71,7 @@ def plot(split_type, config_path, model_state_path, metric_dict_path, percentile
     # plot data
     metric_name = config.get("loss_func", "mse")
     plot_sorted_mse(
-        {"$S_n(\mathcal{G}, \hat{\mathbf{n}})$": metric_dict["test"]},
+        {r"$S_n(\mathcal{G}, \hat{\mathbf{n}})$": metric_dict["test"]},
         ax=ax_0, alpha=0.25, marker=".", c="r", metric_name=metric_name
     )
     offsets = ax_0.collections[0].get_offsets()
