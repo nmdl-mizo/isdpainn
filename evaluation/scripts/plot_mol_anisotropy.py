@@ -67,6 +67,7 @@ for direction in "xyz":
 
 skip = 1
 color_values = angle_list / (np.max(angle_list[::skip]) + 18)
+assert isinstance(color_values, np.ndarray)
 
 cmap = sns.hls_palette(s=0.5, as_cmap=True)
 
@@ -92,7 +93,7 @@ for i_direction, ax in enumerate(axes):
     ax.legend(
         [handles[idx] for idx in order],
         [labels[idx] for idx in order],
-        title=f"$\hat{{\mathrm{{n}}}} \parallel {'xyz'[i_direction]}$",
+        title=r"$\hat{{\mathrm{{n}}}} \parallel " + 'xyz'[i_direction] + "$",
         ncol=2,
         loc="upper right"
     )
