@@ -89,7 +89,7 @@ for ax in axes.T[0]:
     ax.set_ylabel("Intensity (a.u.)")
 # set xlim and ylim
 ax.set_xlim(energies_common.min(), energies_common.max())
-y_max = max(y_true_mol.max(), y_pred_mol.max())
+y_max = max(y_true_mol.max().item(), y_pred_mol.max().item())
 ax.set_ylim(0, y_max * 1.1)
 
 # save fig
