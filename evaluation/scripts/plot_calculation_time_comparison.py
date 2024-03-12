@@ -36,8 +36,8 @@ formatter_y.set_scientific(True)
 formatter_y.set_powerlimits((0,0))
 ax_main.yaxis.set_major_formatter(formatter_y)
 
-ax_main.set_xlabel("$t_\mathrm{DFT}$ (s)")
-ax_main.set_ylabel("$t_\mathrm{GNN}$ (s)")
+ax_main.set_xlabel(r"$t_\mathrm{DFT}$ (s)")
+ax_main.set_ylabel(r"$t_\mathrm{GNN}$ (s)")
 #ax_main.set_xlim(0,2e4)
 
 # histogram x
@@ -52,7 +52,7 @@ ax_histy.tick_params(labelleft=False)
 
 # colorbar
 cbar = plt.colorbar(scatter, orientation="vertical", ax=[ax_main, ax_histx, ax_histy])
-cbar.set_label('$N_\mathrm{ex}$')
+cbar.set_label(r'$N_\mathrm{ex}$')
 
 # right
 ax_calc = fig.add_subplot(gs2[0, :])
@@ -64,10 +64,10 @@ ax_calc.yaxis.set_major_formatter(formatter_y)
 ax_calc.set_ylim(0,)
 #ax_pred.set_ylim(0, 0.005)
 ax_calc.set_xlim(0)
-ax_calc.set_ylabel("$t_\mathrm{DFT}$ (s)")
+ax_calc.set_ylabel(r"$t_\mathrm{DFT}$ (s)")
 ax_calc.tick_params(labelbottom=False)
-ax_pred.set_ylabel("$t_\mathrm{GNN}$ (s)")
-ax_pred.set_xlabel("$N$")
+ax_pred.set_ylabel(r"$t_\mathrm{GNN}$ (s)")
+ax_pred.set_xlabel(r"$N$")
 
 # add labels to the subplots
 text_param = {
