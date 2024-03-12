@@ -31,7 +31,19 @@ pip install git+https://github.com/nmdl-mizo/castep_elnes_parser@v1.1.0#egg=cepa
 pip install deepchem # for scaffold split
 ```
 
-## Dataset source and code for preprocessing dataset
+## Dataset download
+
+To run the scripts for evaluation, dataset must be downloaded.
+
+The trained weights, settings, and MSE for each of the random and scaffold splits and the Ablation experiment have been uploaded to zenodo.
+
+The raw files for the rotated benzene and the CASTEP results for the aromatic amino acids are uploaded to NOMAD.
+
+The files in zenodo and NOMAD can be downloaded by running `evaluation/scripts/download.py`.
+
+Please download the site-specific C-K edge spectra dataset named "site_spectra_0.5eV.hdf5" from [FigShare](https://figshare.com/ndownloader/files/31947896) and place it under `evaluation/dataset/raw` directory.
+
+### Dataset source and code for preprocessing dataset
 
 The carbon K-edge spectra data were smoothed by a Gaussian filter at 0.5 eV for each site and include intensities in the x-, y-, and z-directions.
 This data is published under the name "site_spectra_0.5eV.hdf5" as related data in the prior literature [1] at the following FigShare URL:
@@ -42,18 +54,13 @@ The structures of the molecules in the corresponding QM9 dataset [2, 3] were obt
 In the actual validation experiment, a vector of 256 lengths sampled at equal intervals from 288eV to 310eV was interpolated and used for training after integration with the structural data.
 The class `ck_edge_maker.dataset.CK`, which inherits from torch_geometric's InmemoryDataset, is available in the Python library [ck-edge-maker](https://github.com/nmdl-mizo/ck_edge_maker) on GitHub[5].
 
-Default model and training parameters are described in "scripts/config-defaults.yaml".
+Default model and training parameters are described in "evaluation/scripts/config-defaults.yaml".
 
-The trained weights, settings, and MSE for each of the random and scaffold splits and the Ablation experiment have been uploaded to zenodo.
-The raw files for the rotated benzene and the CASTEP results for the aromatic amino acids are uploaded to NOMAD.
-The files in zenodo and NOMAD can be downloaded by running evaluation/scripts/download.py.
-
-## Scripts for training
+## Run training
 
 The code for training is "scripts/train.py".
 To run the script, follow the procedure below:
 1. Prepare Python environment with PyTorch Geometric and install [isdpainn](https://github.com/nmdl-mizo/ck_edge_maker) and [ck-edge-maker](https://github.com/nmdl-mizo/ck_edge_maker) installed. GPU environment is recommended.
-1. Download the site-specific stectral dataset named "site_spectra_0.5eV.hdf5" from [FigShare](https://figshare.com/ndownloader/files/31947896) and place it under "./dataset/raw" directory.
 1. Check the model and training parameters in "config-defaults.yaml" and modify it if you need.
 1. Run `./train.py -l`.
 
