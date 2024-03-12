@@ -6,9 +6,9 @@ import matplotlib.ticker as ticker
 from ck_edge_maker.dataset import CK
 
 # load dataset
-dataset = CK("../scripts/dataset", energies=(288,310,256), directional=True)
+dataset = CK("./dataset", energies=(288,310,256), directional=True)
 
-df = pd.read_pickle("time_mol_castep_vs_isdpainn.pkl")
+df = pd.read_pickle("../data/analyzed/time_mol_castep_vs_isdpainn.pkl")
 x = df["calc_time"]
 y = df["time_gpu"]
 c = dataset.n_site.tolist()
@@ -84,4 +84,4 @@ ax_calc.text(-0.1, 1.1, 'b', transform=ax_calc.transAxes, **text_param)
 ax_pred.text(-0.1, 1.1, 'c', transform=ax_pred.transAxes, **text_param)
 
 fig.tight_layout()
-fig.savefig("time_comparison.png", dpi=300)
+fig.savefig("../figures/time_comparison.png", dpi=300)
