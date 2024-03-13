@@ -89,6 +89,22 @@ model.load_state_dict(
 
 ## Analysis for model evaluation
 
+Before running the scripts, please prepare and activate a Python environment (see [here](#environment-for-training-and-evaluation)) and downloaded the dataset (see [here](#dataset-download)).
+
+### Molecular spectra of aromatic amino acids
+
+Run the following command and `evaluation/figures/mol_elnes_cid_molecules.png` will be generated.
+```sh
+./plot_cid_moelcules.py
+``` 
+
+### Molecular spectra of a benzene molecule along a axis
+
+Run the following command and `evaluation/figures/rotated_benzene_x.png` will be generated.
+```sh
+./plot_mol_anisotropy
+```
+
 ### Time comparison between DFT and IDS-PaiNN
 
 `evaluation/data/analyzed/time_mol_castep_vs_isdpainn.pkl` and `evaluation/scripts/plot_calculation_time_comparison.py` are the data and script for the calculation/prediction time for the C-K edge in the dataset by CASTEP code and IDS-PaiNN.
@@ -118,7 +134,7 @@ These ablation experiments were performed under random splitting conditions, uti
 
 The configuration, weights, and MSEs of the models for the ablation experiments are available at https://doi.org/10.5281/zenodo.10566201.
 
-To reproduce the scatter plot comparing the MSEs of these models, run `evaluation/scripts/compare_ablation.py` in a Python environment (see [here](#environment-for-training-and-evaluation)) with the dataset downloaded (see [here](#dataset-download)).
+To reproduce the scatter plot comparing the MSEs of these models, run `evaluation/scripts/compare_ablation.py`.
 
 ## References
 1. Shibata, K., Kikumasa, K., Kiyohara, S. et al. Simulated carbon K edge spectral database of organic molecules. Sci Data 9, 214 (2022). https://doi.org/10.1038/s41597-022-01303-8
