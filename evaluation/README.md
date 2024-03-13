@@ -146,7 +146,10 @@ Run the following command and `evaluation/figures/rotated_benzene_x.png` will be
 ### Time comparison between DFT and IDS-PaiNN
 
 `evaluation/data/analyzed/time_mol_castep_vs_isdpainn.pkl` and `evaluation/scripts/plot_calculation_time_comparison.py` are the data and script for the calculation/prediction time for the C-K edge in the dataset by CASTEP code and IDS-PaiNN.
-To reproduce the figure visualizing the dependency on molecular size, run the script in `evaluation/scripts` and `evaluation/figures/time_comparison.png` will be generated.
+To reproduce the figure visualizing the dependency on molecular size, run the following and `evaluation/figures/time_comparison.png` will be generated.
+```sh
+./plot_calculation_time_comparison.py
+```
 
 ### Comparison between ablation experiments
 
@@ -172,7 +175,10 @@ These ablation experiments were performed under random splitting conditions, uti
 
 The configuration, weights, and MSEs of the models for the ablation experiments are available at https://doi.org/10.5281/zenodo.10566201.
 
-To reproduce the scatter plot comparing the MSEs of these models, run `evaluation/scripts/compare_ablation.py`.
+To reproduce the scatter plot comparing the MSEs of these models, run the following:
+```sh
+./compare_ablation.py
+```
 
 ## References
 1. Shibata, K., Kikumasa, K., Kiyohara, S. et al. Simulated carbon K edge spectral database of organic molecules. Sci Data 9, 214 (2022). https://doi.org/10.1038/s41597-022-01303-8
