@@ -66,8 +66,7 @@ To run the script, follow the procedure below:
     - checkpoint file (`model_state.pt`)
     - MSE of site- (`metric_dict.pt`)
 
-## Trained model checkpoint
-
+### Load trained model checkpoints
 
 The trained model weight can be loaded as follows:
 ```Python
@@ -88,12 +87,14 @@ model.load_state_dict(
 )
 ```
 
-## Time comparison between DFT and IDS-PaiNN
+## Analysis for model evaluation
+
+### Time comparison between DFT and IDS-PaiNN
 
 `evaluation/data/analyzed/time_mol_castep_vs_isdpainn.pkl` and `evaluation/scripts/plot_calculation_time_comparison.py` are the data and script for the calculation/prediction time for the C-K edge in the dataset by CASTEP code and IDS-PaiNN.
 To reproduce the figure visualizing the dependency on molecular size, run the script in `evaluation/scripts` and `evaluation/figures/time_comparison.png` will be generated.
 
-## Ablation experiments
+### Ablation experiments
 
 To assess the contribution of individual components within our model, we conducted ablation experiments by selectively modifying components of ISD-PaiNN and comparing the resulting prediction accuracies.
 Four distinct models were trained for the ablation experiments:
