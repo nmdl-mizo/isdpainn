@@ -33,11 +33,13 @@ pip install deepchem # for scaffold split
 
 ## Dataset download
 
-To run the scripts for evaluation, dataset must be downloaded.
+To run the scripts for evaluation, some data must be downloaded.
 
-The trained weights, settings, and MSE for each of the random and scaffold splits and the ablation experiment have been uploaded to zenodo.
-The raw files for the rotated benzene and the CASTEP results for the aromatic amino acids are uploaded to NOMAD.
-The files in zenodo and NOMAD can be downloaded by running `evaluation/scripts/download.py`.
+The files in zenodo and NOMAD can be downloaded readily by running `evaluation/scripts/download.py`.
+The script downloads following:
+  - The trained weights, settings, and MSE for each of the random and scaffold splits from [zenodo](https://doi.org/10.5281/zenodo.10547719)
+  - The trained weights, settings, and MSE for the ablation experiments from [zenodo](https://zenodo.org/doi/10.5281/zenodo.10566200).
+  - Some of the raw CASTEP results files for analyzing the aromatic amino acids (Dataset id: [-wYS-_xcTce_8ufAVvJPZA](https://doi.org/10.17172/NOMAD/2024.01.23-1)) and the rotated benzene (Dataset id: [PFHr0r4-SDy-2otuTyk1Pw](https://doi.org/10.17172/NOMAD/2024.01.23-2)) from NOMAD.
 
 Seperately, download the site-specific C-K edge spectra dataset named "site_spectra_0.5eV.hdf5" from [FigShare](https://figshare.com/ndownloader/files/31947896) and place it under `evaluation/dataset/raw` directory.
 This file contains the carbon K-edge spectra data smoothed by a Gaussian filter at 0.5 eV for each site including intensities corresponding to the x-, y-, and z-directions.
@@ -66,7 +68,6 @@ To run the script, follow the procedure below:
 
 ## Trained model checkpoint
 
-The weights of the trained model and MSE for random split and scaffold split discussed in the paper are available at https://doi.org/10.5281/zenodo.10547719.
 
 The trained model weight can be loaded as follows:
 ```Python
