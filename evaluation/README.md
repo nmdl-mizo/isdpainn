@@ -36,9 +36,7 @@ pip install deepchem # for scaffold split
 To run the scripts for evaluation, dataset must be downloaded.
 
 The trained weights, settings, and MSE for each of the random and scaffold splits and the ablation experiment have been uploaded to zenodo.
-
 The raw files for the rotated benzene and the CASTEP results for the aromatic amino acids are uploaded to NOMAD.
-
 The files in zenodo and NOMAD can be downloaded by running `evaluation/scripts/download.py`.
 
 Seperately, download the site-specific C-K edge spectra dataset named "site_spectra_0.5eV.hdf5" from [FigShare](https://figshare.com/ndownloader/files/31947896) and place it under `evaluation/dataset/raw` directory.
@@ -52,15 +50,19 @@ The structures of the molecules in the corresponding QM9 dataset [2, 3] were obt
 In the actual validation experiment, a vector of 256 lengths sampled at equal intervals from 288eV to 310eV was interpolated and used for training after integration with the structural data.
 The class `ck_edge_maker.dataset.CK`, which inherits from torch_geometric's InmemoryDataset, is available in the Python library [ck-edge-maker](https://github.com/nmdl-mizo/ck_edge_maker) on GitHub[5].
 
-Default model and training parameters are described in "evaluation/scripts/config-defaults.yaml".
-
 ## Run training
+
+The default model and training parameters are stored in "evaluation/scripts/config-defaults.yaml".
 
 The code for training is "scripts/train.py".
 To run the script, follow the procedure below:
-1. Prepare Python environment with PyTorch Geometric and install [isdpainn](https://github.com/nmdl-mizo/ck_edge_maker) and [ck-edge-maker](https://github.com/nmdl-mizo/ck_edge_maker) installed. GPU environment is recommended.
-1. Check the model and training parameters in "config-defaults.yaml" and modify it if you need.
+1. Prepare Python environment following [here](#environment-for-training-and-evaluation).
+1. Change directory to `evaluation/scripts/`
+1. Check the model and training parameters in `config-defaults.yaml` and modify it if you need.
 1. Run `./train.py -l`.
+1. Files will be output.
+    - checkpoint file (`model_state.pt`)
+    - MSE of site- (`metric_dict.pt`)
 
 ## Trained model checkpoint
 
