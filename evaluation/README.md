@@ -37,7 +37,7 @@ To run the scripts for evaluation, some data must be downloaded.
 
 The files uploaded to zenodo and NOMAD can be downloaded under `evaluation/data` directory by running `evaluation/scripts/download.py`.
 The script downloads following:
-  - The trained weights, settings, and MSE for each of the random and scaffold splits from [zenodo](https://doi.org/10.5281/zenodo.10547719)
+  - The trained weights, settings, and mean square error(MSE) for each of the random and scaffold splits from [zenodo](https://doi.org/10.5281/zenodo.10547719)
   - The trained weights, settings, and MSE for the ablation experiments from [zenodo](https://zenodo.org/doi/10.5281/zenodo.10566200).
   - Some of the raw CASTEP results files for analyzing the aromatic amino acids (Dataset id: [-wYS-_xcTce_8ufAVvJPZA](https://doi.org/10.17172/NOMAD/2024.01.23-1)) and the rotated benzene (Dataset id: [PFHr0r4-SDy-2otuTyk1Pw](https://doi.org/10.17172/NOMAD/2024.01.23-2)) from NOMAD.
 
@@ -89,9 +89,45 @@ model.load_state_dict(
 
 ## Analysis for model evaluation
 
+The Python script files in `evaluation/scripts` can be used for the reproducing the analysis, and plots can be generated.
+
 Before running the scripts, please prepare and activate a Python environment (see [here](#environment-for-training-and-evaluation)) and downloaded the dataset (see [here](#dataset-download)).
 
+### Prediction errors for random split and scaffold split
+
+The distribution of MSEs in the random and Scaffold splits was investigated, and spectra in typical positions were examined.
+
+#### Random split
+For MSEs of site spectra by the random split, run the following command and `evaluation/figures/grid_typical_spectra_random_split.png` will be generated.
+```sh
+./plot_typical_spectra_grid.py random_split
+``` 
+
+#### Scaffold split
+
+For MSEs of site spectra by the scaffold split, run the following command and `evaluation/figures/grid_typical_spectra_scaffold_split.png` will be generated.
+```sh
+./plot_typical_spectra_grid.py scaffold_split
+``` 
+
+#### Molecular MSEs for random split
+
+As a prediction accuracy per molecule rather than site, the sum of the MSEs of the site spectra for the valid carbon sites was taken as the MSE of the molecular spectra, and the distribution was examined for the model trained with the random split.
+The `evaluation/figures/sorted_mol_mse.png` file can be generated for this result by executing the following command.
+```sh
+./plot_mol_mse.py
+```
+
+#### Molecular and site spectra of specific molecules
+
+To plot the site and molecular spectra for a particular molecule for a model trained on random splits, run the following command for any integer value of QM9 molecule id.
+```sh
+./plot_mol_prediction.py [QM9 moelecule id]
+```
+
 ### Molecular spectra of aromatic amino acids
+
+To check extrapolation and generalization performance for large molecules not included in the training data, molecular spectra were predicted for four aromatic amino acids using weights trained with random splits and compared to those calculated with DFT.
 
 Run the following command and `evaluation/figures/mol_elnes_cid_molecules.png` will be generated.
 ```sh
@@ -99,6 +135,8 @@ Run the following command and `evaluation/figures/mol_elnes_cid_molecules.png` w
 ``` 
 
 ### Molecular spectra of a benzene molecule along a axis
+
+The training data used intensities in the x, y, and z directions only, obtained from DFT calculations, but to test whether there is generalization performance for other general directions, molecular spectra were predicted for benzene molecules rotated about one axis using weights trained with random splits and compared to those calculated with DFT.
 
 Run the following command and `evaluation/figures/rotated_benzene_x.png` will be generated.
 ```sh
@@ -110,7 +148,7 @@ Run the following command and `evaluation/figures/rotated_benzene_x.png` will be
 `evaluation/data/analyzed/time_mol_castep_vs_isdpainn.pkl` and `evaluation/scripts/plot_calculation_time_comparison.py` are the data and script for the calculation/prediction time for the C-K edge in the dataset by CASTEP code and IDS-PaiNN.
 To reproduce the figure visualizing the dependency on molecular size, run the script in `evaluation/scripts` and `evaluation/figures/time_comparison.png` will be generated.
 
-### Ablation experiments
+### Comparison between ablation experiments
 
 To assess the contribution of individual components within our model, we conducted ablation experiments by selectively modifying components of ISD-PaiNN and comparing the resulting prediction accuracies.
 Four distinct models were trained for the ablation experiments:
