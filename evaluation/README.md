@@ -68,7 +68,7 @@ To run the script, follow the procedure below:
 
 The weights of the trained model and MSE for random split and scaffold split discussed in the paper are available at https://doi.org/10.5281/zenodo.10547719.
 
-The model weight can be loaded as follows:
+The trained model weight can be loaded as follows:
 ```Python
 from inspect import signature
 import torch
@@ -81,7 +81,7 @@ model = ISDPaiNN(**{
     for key, value in config.items()
     if key in signature(ISDPaiNN).parameters.keys()
 })
-model_state_dict = torch.load("model_state.pth", map_location=DEVICE)
+model_state_dict = torch.load("model_state.pt", map_location=DEVICE)
 model.load_state_dict(
     model_state_dict["model_state_dict"]
 )
