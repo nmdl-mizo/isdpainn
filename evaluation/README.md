@@ -89,8 +89,8 @@ model.load_state_dict(
 
 ## Time comparison between DFT and IDS-PaiNN
 
-The directory "calculation_time_comaprison" contains data and script for the calculation/prediction time for the C-K edge in the dataset by CASTEP code and IDS-PaiNN.
-"time_mol_castep_vs_isdpainn.pkl" contains the data of the calculation time, and "plot_calculation_time_comparison.py" is a script used for making a figure visualizing the dependency on molecular size.
+`evaluation/data/analyzed/time_mol_castep_vs_isdpainn.pkl` and `evaluation/scripts/plot_calculation_time_comparison.py` are the data and script for the calculation/prediction time for the C-K edge in the dataset by CASTEP code and IDS-PaiNN.
+To reproduce the figure visualizing the dependency on molecular size, run the script in `evaluation/scripts` and `evaluation/figures/time_comparison.png` will be generated.
 
 ## Ablation experiments
 
