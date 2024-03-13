@@ -116,6 +116,8 @@ These ablation experiments were performed under random splitting conditions, uti
 
 The configuration, weights, and MSEs of the models for the ablation experiments are available at https://doi.org/10.5281/zenodo.10566201.
 
+To reproduce the scatter plot comparing the MSEs of these models, run `evaluation/scripts/compare_ablation.py` in a Python environment (see [here](#environment-for-training-and-evaluation)) with the dataset downloaded (see [here](#dataset-download)).
+
 ## References
 1. Shibata, K., Kikumasa, K., Kiyohara, S. et al. Simulated carbon K edge spectral database of organic molecules. Sci Data 9, 214 (2022). https://doi.org/10.1038/s41597-022-01303-8
 2. Ruddigkeit, L., van Deursen, R., Blum, L. C. & Reymond, J.-L. Enumeration of 166 billion organic small molecules in the chemical universe database GDB-17. Journal of Chemical Information and Modeling 52, 2864–2875, (2012). https://doi.org/10.1021/ci300415d
