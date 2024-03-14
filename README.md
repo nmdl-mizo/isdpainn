@@ -46,7 +46,59 @@ The code is developed based on the implementation of PaiNN in [`ocp-models.model
 Dockerfile is available in the repository.
 You can build the docker image by running `docker build -t isdpainn .` in the repository directory.
 
-## Test
+## Usage
+Like other models inheriting from torch.nn.Module, ISDPaiNN can be imported and used.
+The data argument of the forward method should be in the form of a `Batch` object from the `torch_geometric.data` module.
+Here is an example of how to import the model class, loadd the pretrained weights, and predict using the QM9 dataset:
+
+```python
+import torch
+from torch_geometric.data import Batch
+from isdpainn import ISDPaiNN
+from torch_geometric.datasets.qm9 import QM9
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+# Create a model and load the pre-trained weights
+model_config = {
+    "message_factor_normalize": False,
+    "symmetric_message": True,
+    "hidden_channels": 512,
+    "out_channels": 256,
+    "num_layers": 8,
+    "num_out_layers": 1,
+    "num_rbf": 64,
+    "use_pbc": False,
+    "num_elements": 9,
+    "max_neighbors": 50,
+    "cutoff": 8.0
+}
+model = ISDPaiNN(**model_config).to(DEVICE)
+model_state_dict = torch.load("evaluation/data/model/model_state_random_split.pt", map_location=DEVICE)
+model.load_state_dict(
+    model_state_dict["model_state_dict"]
+)
+
+# Load QM9 dataset and create a data for input
+qm9_id = 100
+dataset = QM9(root='evaluation/scripts/dataset')
+data_list = [dataset[dataset.name.index(f'gdb_{qm9_id}')],] # Add "natoms" key, which is required for the forward method
+data_list = [d.update({"natoms": len(d.z)}) for d in data_list]
+data = Batch.from_data_list(data_list).to(DEVICE)
+direction = torch.tensor([0., 0., 1.]).to(DEVICE) # polarization or momentum transfer along z direction
+
+# Predict the site spectra
+site_spectra = model.forward(data, direction=direction)
+site_spectra = site_spectra[data.z==6] # Select only carbon atoms
+
+# plot the predicted site spectra
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots(1)
+ax.plot(torch.linspace(288, 310, 256).numpy(), site_spectra.cpu().detach().numpy().T)
+ax.set_xlabel("Energy (eV)")
+ax.set_ylabel("Intensity")
+plt.show()
+```
+
 A test script for checking invariance and equivariance of the model is available in `tests/test_model.py`.
 You can run the test by `pytest tests/unit_test.py`.
 
