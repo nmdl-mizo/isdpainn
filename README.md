@@ -8,7 +8,7 @@ Accelerated Materials Design(AI4Mat) - NeurIPS 2023](https://sites.google.com/vi
 
 This repository provides the implementation of ISD-PaiNN, along with installation instructions, testing scripts, and evaluation experiments.
 
-### Model architecture
+## Model architecture
 The model architecture is largely based on the Polarizable Atom Interaction Neural Network (PaiNN) proposed by Kristof T. Schütt, Oliver T. Unke, and Michael Gastegger in the paper:
 "Equivariant message passing for the prediction of tensorial properties and molecular spectra"
 [arXiv:2102.03150](https://arxiv.org/abs/2102.03150).
