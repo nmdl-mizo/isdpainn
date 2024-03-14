@@ -1,9 +1,12 @@
 # Inversion Symmetry-aware Directional PaiNN (ISD-PaiNN)
 
-## Description
+The Inversion Symmetry-aware Directional PaiNN (ISD-PaiNN) is a machine learning model for predicting physical properties based on molecular graphs and their orientations. This model extends the Polarizable Atom Interaction Neural Network (PaiNN) by introducing an orientation vector as an additional input and making several other modifications to enhance the model’s ability to regress physical properties. 
+
 This model is proposed in a paper
 [Open Review: iSFsLFsGYX](https://openreview.net/forum?id=iSFsLFsGYX), which was accepted in [AI for 
 Accelerated Materials Design(AI4Mat) - NeurIPS 2023](https://sites.google.com/view/ai4mat/home) as a spot-light talk.
+
+This repository provides the implementation of ISD-PaiNN, along with installation instructions, testing scripts, and evaluation experiments.
 
 ### Model
 The model architecture is largely based on the Polarizable Atom Interaction Neural Network (PaiNN) proposed by Kristof T. Schütt, Oliver T. Unke, and Michael Gastegger in the paper:
@@ -41,6 +44,10 @@ The code is developed based on the implementation of PaiNN in [`ocp-models.model
 }
 ```
 
+## Prerequisities
+- A computer with a CPU capable of running Python 3.10 and PyTorch. Creating a dedicated Python environment using conda is recommended.
+- A GPU is highly recommended for training and inference. The GPU should be compatible with CUDA 12.1 if you want to take advantage of PyTorch's GPU acceleration.
+
 ## Installation
 1. Install `pytorch`, `torch_geometric`, and `ocp-models` in advance depending on your environment (GPU/CPU).
     - [pytorch](https://pytorch.org/)
@@ -53,7 +60,7 @@ The code is developed based on the implementation of PaiNN in [`ocp-models.model
         conda install -qy pyg pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pyg
         pip install -e git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
         ```
-1. Clone this repository and run `pip install .` in the repository directory, or run `pip install https://github.com/nmdl-mizo/isdpainn.git@main#egg=symapinn` to install directly from GitHub.
+1. Clone this repository and run `pip install .` in the repository directory, or run `pip install https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn` to install directly from GitHub.
 
 ## Docker
 Dockerfile is available in the repository.
