@@ -49,7 +49,14 @@ You can build the docker image by running `docker build -t isdpainn .` in the re
 ## Usage
 Like other models inheriting from torch.nn.Module, ISDPaiNN can be imported and used.
 The data argument of the forward method should be in the form of a `Batch` object from the `torch_geometric.data` module.
-Here is an example of how to import the model class, loadd the pretrained weights, and predict using the QM9 dataset:
+The input batch object must have keys:
+    - `z`: atomic number
+    - `pos`: atom position
+    - `natoms`: number of atoms
+    - `batch`: indices of graphs in the batch
+    - `cell`: cell parameters (required only when use_pbc=True)
+
+Here is an example of how to import the model class, load the pretrained weights, and predict using the QM9 dataset:
 
 ```python
 import torch
