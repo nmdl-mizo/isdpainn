@@ -22,11 +22,13 @@ These changes enable to regress physical properties not only on molecular graph 
 
 The code is developed based on the implementation of PaiNN in [`ocp-models.models.painn`](https://github.com/Open-Catalyst-Project/ocp/tree/main/ocpmodels/models/painn).
 
-## Prerequisities
-- A computer with a CPU capable of running Python 3.10 and PyTorch. Creating a dedicated Python environment using conda is recommended.
-- A GPU is highly recommended for training and inference. The GPU should be compatible with CUDA 12.1 if you want to take advantage of PyTorch's GPU acceleration.
-
 ## Installation
+
+### Prerequisities
+- A computer with a CPU capable of running Python 3.10 and PyTorch. Creating a dedicated Python environment using conda is recommended.
+- A GPU is highly recommended for training and inference. The GPU should be compatible with CUDA 12.1.
+
+### Using conda
 1. Install `pytorch`, `torch_geometric`, and `ocp-models` in advance depending on your environment (GPU/CPU).
     - [pytorch](https://pytorch.org/)
     - [torch_geometric](https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html)
@@ -40,7 +42,7 @@ The code is developed based on the implementation of PaiNN in [`ocp-models.model
         ```
 1. Clone this repository and run `pip install .` in the repository directory, or run `pip install https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn` to install directly from GitHub.
 
-## Docker
+### Using Docker
 Dockerfile is available in the repository.
 You can build the docker image by running `docker build -t isdpainn .` in the repository directory.
 
@@ -48,7 +50,7 @@ You can build the docker image by running `docker build -t isdpainn .` in the re
 A test script for checking invariance and equivariance of the model is available in `tests/test_model.py`.
 You can run the test by `pytest tests/unit_test.py`.
 
-## Evaluation experiment on simulated C-K edge dataset
+## Model evaluation on simulated C-K edge dataset
 Some scripts, weights and description is available for Evaluation experiment on simulated C-K edge dataset.
 Please check [here](/evaluation/README.md).
 
