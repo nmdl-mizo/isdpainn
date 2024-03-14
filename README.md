@@ -23,27 +23,6 @@ These changes enable to regress physical properties not only on molecular graph 
 ### Code
 The code is developed based on the implementation of PaiNN in [`ocp-models.models.painn`](https://github.com/Open-Catalyst-Project/ocp/tree/main/ocpmodels/models/painn).
 
-## References
-- PaiNN [schütt2021equivariant]
-- ocp by Open Catalyst Project [ocp_dataset]
-```
-@misc{schütt2021equivariant,
-      title={Equivariant message passing for the prediction of tensorial properties and molecular spectra}, 
-      author={Kristof T. Schütt and Oliver T. Unke and Michael Gastegger},
-      year={2021},
-      eprint={2102.03150},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
-@article{ocp_dataset,
-    author = {Chanussot*, Lowik and Das*, Abhishek and Goyal*, Siddharth and Lavril*, Thibaut and Shuaibi*, Muhammed and Riviere, Morgane and Tran, Kevin and Heras-Domingo, Javier and Ho, Caleb and Hu, Weihua and Palizhati, Aini and Sriram, Anuroop and Wood, Brandon and Yoon, Junwoong and Parikh, Devi and Zitnick, C. Lawrence and Ulissi, Zachary},
-    title = {Open Catalyst 2020 (OC20) Dataset and Community Challenges},
-    journal = {ACS Catalysis},
-    year = {2021},
-    doi = {10.1021/acscatal.0c04525},
-}
-```
-
 ## Prerequisities
 - A computer with a CPU capable of running Python 3.10 and PyTorch. Creating a dedicated Python environment using conda is recommended.
 - A GPU is highly recommended for training and inference. The GPU should be compatible with CUDA 12.1 if you want to take advantage of PyTorch's GPU acceleration.
@@ -90,5 +69,26 @@ author={Kiyou Shibata and Teruyasu Mizoguchi},
 booktitle={AI for Accelerated Materials Design - NeurIPS 2023 Workshop},
 year={2023},
 url={https://openreview.net/forum?id=iSFsLFsGYX}
+}
+```
+
+## References
+- PaiNN [schütt2021equivariant]
+- ocp by Open Catalyst Project [ocp_dataset]
+```
+@misc{schütt2021equivariant,
+      title={Equivariant message passing for the prediction of tensorial properties and molecular spectra}, 
+      author={Kristof T. Schütt and Oliver T. Unke and Michael Gastegger},
+      year={2021},
+      eprint={2102.03150},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+@article{ocp_dataset,
+    author = {Chanussot*, Lowik and Das*, Abhishek and Goyal*, Siddharth and Lavril*, Thibaut and Shuaibi*, Muhammed and Riviere, Morgane and Tran, Kevin and Heras-Domingo, Javier and Ho, Caleb and Hu, Weihua and Palizhati, Aini and Sriram, Anuroop and Wood, Brandon and Yoon, Junwoong and Parikh, Devi and Zitnick, C. Lawrence and Ulissi, Zachary},
+    title = {Open Catalyst 2020 (OC20) Dataset and Community Challenges},
+    journal = {ACS Catalysis},
+    year = {2021},
+    doi = {10.1021/acscatal.0c04525},
 }
 ```
