@@ -109,8 +109,7 @@ class ISDPaiNN(BaseModel):
         num_elements: int=83,
         scale_file: Optional[str] = None,
         message_factor_normalize: bool=True, # new
-        symmetric_message: bool=True, # new,
-        zero_initialization: bool=False, # new
+        symmetric_message: bool=True, # new
     ) -> None:
         super().__init__()
 
@@ -127,7 +126,6 @@ class ISDPaiNN(BaseModel):
         self.otf_graph = otf_graph
         self.use_pbc = use_pbc
         self.message_factor_normalize = message_factor_normalize
-        self.zero_initialization = zero_initialization
 
         # Borrowed from GemNet.
         self.symmetric_edge_symmetrization = False
@@ -135,8 +133,7 @@ class ISDPaiNN(BaseModel):
         #### Learnable parameters #############################################
 
         self.invariant_atom_emb = AtomEmbedding(hidden_channels, num_elements)
-        if not self.zero_initialization:
-            self.equivariant_atom_emb = AtomEmbedding(hidden_channels, num_elements)
+        self.equivariant_atom_emb = AtomEmbedding(hidden_channels, num_elements)
 
         self.radial_basis = RadialBasis(
             num_radial=num_rbf,
@@ -452,33 +449,28 @@ class ISDPaiNN(BaseModel):
 
         # initialize node invariant and equivariant features
         x = self.invariant_atom_emb(z)  # (nodes, hidden_channels)
-        if self.zero_initialization:
-            # initialize equivariant features with zeros
-            vec = torch.zeros(x.shape[0], 3, x.shape[1], device=x.device)
+        if direction is None and hasattr(data, "direction"):
+            direction = data.direction
+            direction /= direction.norm(dim=-1, keepdim=True)
+            direction = direction.to(z.device)
+            # (graphs, 3)
+            vec = torch.einsum(
+                "nh,nd->ndh",
+                self.equivariant_atom_emb(z),
+                direction[data.batch]
+            )  # (nodes, 3, hidden_channels)
+        elif direction is not None:
+            if not torch.is_tensor(direction):
+                direction = torch.tensor(direction, dtype=torch.float32)
+            direction /= direction.norm(dim=-1, keepdim=True)
+            direction = direction.to(z.device)
+            vec = torch.einsum(
+                "nh,d->ndh",
+                self.equivariant_atom_emb(z),
+                direction
+            )  # (nodes, 3, hidden_channels)
         else:
-            # initialize equivariant features according to embedding of z and direction
-            if direction is None and hasattr(data, "direction"):
-                direction = data.direction
-                direction /= direction.norm(dim=-1, keepdim=True)
-                direction = direction.to(z.device)
-                # (graphs, 3)
-                vec = torch.einsum(
-                    "nh,nd->ndh",
-                    self.equivariant_atom_emb(z),
-                    direction[data.batch]
-                )  # (nodes, 3, hidden_channels)
-            elif direction is not None:
-                if not torch.is_tensor(direction):
-                    direction = torch.tensor(direction, dtype=torch.float32)
-                direction /= direction.norm(dim=-1, keepdim=True)
-                direction = direction.to(z.device)
-                vec = torch.einsum(
-                    "nh,d->ndh",
-                    self.equivariant_atom_emb(z),
-                    direction
-                )  # (nodes, 3, hidden_channels)
-            else:
-                raise ValueError("Direction is not specified, and data.direction is not available.")
+            raise ValueError("Direction is not specified, and data.direction is not available.")
         #vec = self.equivariant_atom_emb(z)
         ## vec should be normalized along hidden_channels
         #vec /= vec.sum(axis=-1).unsqueeze(-1)

@@ -52,6 +52,6 @@ patience:
 verbose:
   value: true
 model_state_path:
-  value: "model_state.pt"
+  value: "model_state.pth"
 optimizer:
   value: "Adam"

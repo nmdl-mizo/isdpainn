@@ -10,12 +10,12 @@ RUN apt-get update && \
 # Set the working directory
 WORKDIR /workspace
 
+# Install the necessary packages
+RUN conda install -qy pyg pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pyg && \
+    conda clean -afy
+
 # Copy the current directory contents into the container
 COPY . /tmp
-
-# Install the necessary packages
-RUN conda install -qy pyg=2.4.0 pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pyg && \
-    conda clean -afy
 RUN pip install -e git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
 RUN pip install /tmp[dev] && \
     rm -rf /root/.cache/pip/*

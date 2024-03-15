@@ -6,9 +6,9 @@ import matplotlib.ticker as ticker
 from ck_edge_maker.dataset import CK
 
 # load dataset
-dataset = CK("./dataset", energies=(288,310,256), directional=True)
+dataset = CK("../scripts/dataset", energies=(288,310,256), directional=True)
 
-df = pd.read_pickle("../data/analyzed/time_mol_castep_vs_isdpainn.pkl")
+df = pd.read_pickle("time_mol_castep_vs_isdpainn.pkl")
 x = df["calc_time"]
 y = df["time_gpu"]
 c = dataset.n_site.tolist()
@@ -36,8 +36,8 @@ formatter_y.set_scientific(True)
 formatter_y.set_powerlimits((0,0))
 ax_main.yaxis.set_major_formatter(formatter_y)
 
-ax_main.set_xlabel(r"$t_\mathrm{DFT}$ (s)")
-ax_main.set_ylabel(r"$t_\mathrm{GNN}$ (s)")
+ax_main.set_xlabel("$t_\mathrm{DFT}$ (s)")
+ax_main.set_ylabel("$t_\mathrm{GNN}$ (s)")
 #ax_main.set_xlim(0,2e4)
 
 # histogram x
@@ -52,7 +52,7 @@ ax_histy.tick_params(labelleft=False)
 
 # colorbar
 cbar = plt.colorbar(scatter, orientation="vertical", ax=[ax_main, ax_histx, ax_histy])
-cbar.set_label(r'$N_\mathrm{ex}$')
+cbar.set_label('$N_\mathrm{ex}$')
 
 # right
 ax_calc = fig.add_subplot(gs2[0, :])
@@ -64,10 +64,10 @@ ax_calc.yaxis.set_major_formatter(formatter_y)
 ax_calc.set_ylim(0,)
 #ax_pred.set_ylim(0, 0.005)
 ax_calc.set_xlim(0)
-ax_calc.set_ylabel(r"$t_\mathrm{DFT}$ (s)")
+ax_calc.set_ylabel("$t_\mathrm{DFT}$ (s)")
 ax_calc.tick_params(labelbottom=False)
-ax_pred.set_ylabel(r"$t_\mathrm{GNN}$ (s)")
-ax_pred.set_xlabel(r"$N$")
+ax_pred.set_ylabel("$t_\mathrm{GNN}$ (s)")
+ax_pred.set_xlabel("$N$")
 
 # add labels to the subplots
 text_param = {
@@ -84,4 +84,4 @@ ax_calc.text(-0.1, 1.1, 'b', transform=ax_calc.transAxes, **text_param)
 ax_pred.text(-0.1, 1.1, 'c', transform=ax_pred.transAxes, **text_param)
 
 fig.tight_layout()
-fig.savefig("../figures/time_comparison.png", dpi=300)
+fig.savefig("time_comparison.png", dpi=300)
