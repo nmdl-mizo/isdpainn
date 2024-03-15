@@ -1,4 +1,5 @@
 # Inversion Symmetry-aware Directional PaiNN (ISD-PaiNN)
+[![DOI](https://zenodo.org/badge/744791559.svg)](https://zenodo.org/doi/10.5281/zenodo.10554764)
 
 The Inversion Symmetry-aware Directional PaiNN (ISD-PaiNN) is a machine learning model for predicting physical properties based on molecular graphs and their orientations. This model extends the Polarizable Atom Interaction Neural Network (PaiNN) by introducing an orientation vector as an additional input and making several other modifications to enhance the model’s ability to regress physical properties. 
 
