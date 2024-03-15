@@ -6,24 +6,24 @@ This repository contains scripts for model evaluation on C-K edge spectra datase
 
 All scripts should be run in an appropriate Python environment where CUDA 11.8 is available on a GPU.
 
-To create the Python environment we recommend to create a dedicated environment using conda.
+For running scripts for evaluation, additional packages are required in addition to packages required by isdpainn.
+To create the Python environment for evaluation we recommend to create a dedicated environment using conda.
 
-You can use the package list files provided in `evaluation/scripts` for easy construction: 
-
+You can use the package list files provided in `evaluation/conda_env` for easy construction: 
 ```bash
 git clone git@github.com:nmdl-mizo/isdpainn.git
-cd isdpainn/evaluation/scripts
-conda env create -f environment.yaml
-conda activate isdpainn
-pip install -r requirements.txt
+cd isdpainn/evaluation/conda_env
+conda env create -f environment-eval.yaml
+conda activate isdpainn-eval
+pip install -r requirements-eval.txt
 pip install deepchem # for scaffold split
 ```
 
 Alternatively, run the following:
 
 ```bash
-conda create -n isdpainn python=3.10 pytorch=2.1.0 torchvision torchaudio pytorch-cuda=12.1 pyg=2.4.0 pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv matplotlib tqdm scikit-learn seaborn -c pytorch -c nvidia -c pyg
-conda activate isdpainn
+conda create -n isdpainn-eval python=3.10 pytorch=2.1.0 torchvision torchaudio pytorch-cuda=12.1 pyg=2.4.0 pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv matplotlib tqdm scikit-learn seaborn -c pytorch -c nvidia -c pyg
+conda activate isdpainn-eval
 pip install wandb pymatgen
 pip install git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
 pip install git+https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn

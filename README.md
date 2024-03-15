@@ -29,18 +29,33 @@ The code is developed based on the implementation of PaiNN in [`ocp-models.model
 - A GPU is highly recommended for training and inference. The GPU should be compatible with CUDA 12.1.
 
 ### Using conda
-1. Install `pytorch`, `torch_geometric`, and `ocp-models` in advance depending on your environment (GPU/CPU).
+Install `pytorch`, `torch_geometric`, and `ocp-models` in advance depending on your environment (GPU/CPU).
     - [pytorch](https://pytorch.org/)
     - [torch_geometric](https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html)
     - [ocp-models](https://github.com/Open-Catalyst-Project/ocp/blob/main/INSTALL.md)
-    - The packages above can be installed using conda as follows:
-        ```
-        conda create -n isdpainn-gpu python=3.10 pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
-        conda activate isdpainn-gpu
-        conda install -qy pyg pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pyg
-        pip install -e git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
-        ```
-1. Clone this repository and run `pip install .` in the repository directory, or run `pip install https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn` to install directly from GitHub.
+
+These packages can be installed using conda.
+Conda environment and pip requirements files can be used for creating environment easily:
+```
+conda 
+git clone git@github.com:nmdl-mizo/isdpainn.git
+cd isdpainn/conda_env
+conda env create -f environment.yaml
+conda activate isdpainn
+pip install -r requirements.txt
+```
+Or, conda environment can be created by specifying packages:
+```
+conda create -n isdpainn python=3.10 pytorch=2.1.0 torchvision torchaudio pytorch-cuda=12.1 pyg=2.4.0 pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pytorch -c nvidia -c pyg
+conda activate isdpainn
+pip install git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
+```
+
+Then, run the following to install directly from GitHub.
+```sh
+pip install https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn
+```
+or clone this repository and run `pip install .` in the repository directory.
 
 ### Using Docker
 Dockerfile is available in the repository.
