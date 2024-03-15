@@ -1,0 +1,2 @@
+git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
+#git+https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn

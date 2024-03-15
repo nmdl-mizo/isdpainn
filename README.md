@@ -1,11 +1,15 @@
 # Inversion Symmetry-aware Directional PaiNN (ISD-PaiNN)
+[![DOI](https://zenodo.org/badge/744791559.svg)](https://zenodo.org/doi/10.5281/zenodo.10554764)
 
-## Description
+The Inversion Symmetry-aware Directional PaiNN (ISD-PaiNN) is a machine learning model for predicting physical properties based on molecular graphs and their orientations. This model extends the Polarizable Atom Interaction Neural Network (PaiNN) by introducing an orientation vector as an additional input and making several other modifications to enhance the model’s ability to regress physical properties. 
+
 This model is proposed in a paper
 [Open Review: iSFsLFsGYX](https://openreview.net/forum?id=iSFsLFsGYX), which was accepted in [AI for 
 Accelerated Materials Design(AI4Mat) - NeurIPS 2023](https://sites.google.com/view/ai4mat/home) as a spot-light talk.
 
-### Model
+This repository provides the implementation of ISD-PaiNN, along with installation instructions, testing scripts, and evaluation experiments.
+
+## Model architecture
 The model architecture is largely based on the Polarizable Atom Interaction Neural Network (PaiNN) proposed by Kristof T. Schütt, Oliver T. Unke, and Michael Gastegger in the paper:
 "Equivariant message passing for the prediction of tensorial properties and molecular spectra"
 [arXiv:2102.03150](https://arxiv.org/abs/2102.03150).
@@ -17,53 +21,111 @@ The main changes from the PaiNN model are as follows:
 
 These changes enable to regress physical properties not only on molecular graph but also orientation relative to the graph.
 
-### Code
 The code is developed based on the implementation of PaiNN in [`ocp-models.models.painn`](https://github.com/Open-Catalyst-Project/ocp/tree/main/ocpmodels/models/painn).
 
-## References
-- PaiNN [schütt2021equivariant]
-- ocp by Open Catalyst Project [ocp_dataset]
-```
-@misc{schütt2021equivariant,
-      title={Equivariant message passing for the prediction of tensorial properties and molecular spectra}, 
-      author={Kristof T. Schütt and Oliver T. Unke and Michael Gastegger},
-      year={2021},
-      eprint={2102.03150},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
-@article{ocp_dataset,
-    author = {Chanussot*, Lowik and Das*, Abhishek and Goyal*, Siddharth and Lavril*, Thibaut and Shuaibi*, Muhammed and Riviere, Morgane and Tran, Kevin and Heras-Domingo, Javier and Ho, Caleb and Hu, Weihua and Palizhati, Aini and Sriram, Anuroop and Wood, Brandon and Yoon, Junwoong and Parikh, Devi and Zitnick, C. Lawrence and Ulissi, Zachary},
-    title = {Open Catalyst 2020 (OC20) Dataset and Community Challenges},
-    journal = {ACS Catalysis},
-    year = {2021},
-    doi = {10.1021/acscatal.0c04525},
-}
-```
-
 ## Installation
-1. Install `pytorch`, `torch_geometric`, and `ocp-models` in advance depending on your environment (GPU/CPU).
+
+### Prerequisities
+- A computer with a CPU capable of running Python 3.10 and PyTorch. Creating a dedicated Python environment using conda is recommended.
+- A GPU is highly recommended for training and inference. The GPU should be compatible with CUDA 12.1.
+
+### Using conda
+Install `pytorch`, `torch_geometric`, and `ocp-models` in advance depending on your environment (GPU/CPU).
     - [pytorch](https://pytorch.org/)
     - [torch_geometric](https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html)
     - [ocp-models](https://github.com/Open-Catalyst-Project/ocp/blob/main/INSTALL.md)
-    - The packages above can be installed using conda as follows:
-        ```
-        conda create -n isdpainn-gpu python=3.10 pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
-        conda activate isdpainn-gpu
-        conda install -qy pyg pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pyg
-        pip install -e git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
-        ```
-1. Clone this repository and run `pip install .` in the repository directory, or run `pip install https://github.com/nmdl-mizo/isdpainn.git@main#egg=symapinn` to install directly from GitHub.
 
-## Docker
+These packages can be installed using conda.
+Conda environment and pip requirements files can be used for creating environment easily:
+```
+conda 
+git clone git@github.com:nmdl-mizo/isdpainn.git
+cd isdpainn/conda_env
+conda env create -f environment.yaml
+conda activate isdpainn
+pip install -r requirements.txt
+```
+Or, conda environment can be created by specifying packages:
+```
+conda create -n isdpainn python=3.10 pytorch=2.1.0 torchvision torchaudio pytorch-cuda=12.1 pyg=2.4.0 pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pytorch -c nvidia -c pyg
+conda activate isdpainn
+pip install git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
+```
+
+Then, run the following to install directly from GitHub.
+```sh
+pip install https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn
+```
+or clone this repository and run `pip install .` in the repository directory.
+
+### Using Docker
 Dockerfile is available in the repository.
 You can build the docker image by running `docker build -t isdpainn .` in the repository directory.
 
-## Test
+## Usage
+Like other models inheriting from torch.nn.Module, ISDPaiNN can be imported and used.
+The data argument of the forward method should be in the form of a `Batch` object from the `torch_geometric.data` module.
+The input batch object must have keys:
+- `z`: atomic number
+- `pos`: atom position
+- `natoms`: number of atoms
+- `batch`: indices of graphs in the batch
+- `cell`: cell parameters (required only when use_pbc=True)
+
+Here is an example of how to import the model class, load the pretrained weights, and predict using the QM9 dataset:
+
+```python
+import torch
+from torch_geometric.data import Batch
+from isdpainn import ISDPaiNN
+from torch_geometric.datasets.qm9 import QM9
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+# Create a model and load the pre-trained weights
+model_config = {
+    "message_factor_normalize": False,
+    "symmetric_message": True,
+    "hidden_channels": 512,
+    "out_channels": 256,
+    "num_layers": 8,
+    "num_out_layers": 1,
+    "num_rbf": 64,
+    "use_pbc": False,
+    "num_elements": 9,
+    "max_neighbors": 50,
+    "cutoff": 8.0
+}
+model = ISDPaiNN(**model_config).to(DEVICE)
+model_state_dict = torch.load("evaluation/data/model/model_state_random_split.pt", map_location=DEVICE)
+model.load_state_dict(
+    model_state_dict["model_state_dict"]
+)
+
+# Load QM9 dataset and create a data for input
+qm9_id = 100
+dataset = QM9(root='evaluation/scripts/dataset')
+data_list = [dataset[dataset.name.index(f'gdb_{qm9_id}')],] # Add "natoms" key, which is required for the forward method
+data_list = [d.update({"natoms": len(d.z)}) for d in data_list]
+data = Batch.from_data_list(data_list).to(DEVICE)
+direction = torch.tensor([0., 0., 1.]).to(DEVICE) # polarization or momentum transfer along z direction
+
+# Predict the site spectra
+site_spectra = model.forward(data, direction=direction)
+site_spectra = site_spectra[data.z==6] # Select only carbon atoms
+
+# plot the predicted site spectra
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots(1)
+ax.plot(torch.linspace(288, 310, 256).numpy(), site_spectra.cpu().detach().numpy().T)
+ax.set_xlabel("Energy (eV)")
+ax.set_ylabel("Intensity")
+plt.show()
+```
+
 A test script for checking invariance and equivariance of the model is available in `tests/test_model.py`.
 You can run the test by `pytest tests/unit_test.py`.
 
-## Evaluation experiment on simulated C-K edge dataset
+## Model evaluation on simulated C-K edge dataset
 Some scripts, weights and description is available for Evaluation experiment on simulated C-K edge dataset.
 Please check [here](/evaluation/README.md).
 
@@ -83,5 +145,26 @@ author={Kiyou Shibata and Teruyasu Mizoguchi},
 booktitle={AI for Accelerated Materials Design - NeurIPS 2023 Workshop},
 year={2023},
 url={https://openreview.net/forum?id=iSFsLFsGYX}
+}
+```
+
+## References
+- PaiNN [schütt2021equivariant]
+- ocp by Open Catalyst Project [ocp_dataset]
+```
+@misc{schütt2021equivariant,
+      title={Equivariant message passing for the prediction of tensorial properties and molecular spectra}, 
+      author={Kristof T. Schütt and Oliver T. Unke and Michael Gastegger},
+      year={2021},
+      eprint={2102.03150},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+@article{ocp_dataset,
+    author = {Chanussot*, Lowik and Das*, Abhishek and Goyal*, Siddharth and Lavril*, Thibaut and Shuaibi*, Muhammed and Riviere, Morgane and Tran, Kevin and Heras-Domingo, Javier and Ho, Caleb and Hu, Weihua and Palizhati, Aini and Sriram, Anuroop and Wood, Brandon and Yoon, Junwoong and Parikh, Devi and Zitnick, C. Lawrence and Ulissi, Zachary},
+    title = {Open Catalyst 2020 (OC20) Dataset and Community Challenges},
+    journal = {ACS Catalysis},
+    year = {2021},
+    doi = {10.1021/acscatal.0c04525},
 }
 ```
