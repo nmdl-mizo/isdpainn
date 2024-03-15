@@ -1,3 +1,4 @@
+from pathlib import Path
 from tqdm import tqdm
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -61,16 +62,30 @@ class EarlyStopping:
 
 
 def prepare_dataset(
-        config,
-        root="dataset",
-        energies_default=(
+        config: dict,
+        root: str | Path = "dataset",
+        energies_default : tuple[int, int, int] = (
             288,
             310,
             256
         ),
-        as_dict=False,
-        random_state_default=0,
-        directional_default=True):
+        as_dict: bool = False,
+        random_state_default: int = 0,
+        directional_default: bool = True) -> tuple | dict:
+    """
+    prepare dataset split
+
+    Args:
+        config (dict): configuration dictionary
+        root (str): root directory of dataset
+        energies_default (tuple): default energies
+        as_dict (bool): if True, return as dictionary
+        random_state_default (int): default random state
+        directional_default (bool): default directional
+
+    Returns:
+        tuple of torch_geometric.data.Data or dict: dataset split
+    """
     shuffle = config.get("shuffle", True)
     random_state = config.get("random_state", random_state_default)
     # prepare Dataset split
@@ -84,10 +99,11 @@ def prepare_dataset(
             "scaffold_split == True is specified."
             "Use deepchem.splits.ScaffoldSplitter."
         )
-        smiles_ck = torch.load("smiles_ck.pt")
-        import deepchem as dc
-        splitter = dc.splits.ScaffoldSplitter()
-        dataset = dc.data.DiskDataset.from_numpy(
+        smiles_ck = torch.load("../data/analyzed/smiles_ck.pt")
+        from deepchem.splits import ScaffoldSplitter
+        from deepchem.data import DiskDataset
+        splitter = ScaffoldSplitter()
+        dataset = DiskDataset.from_numpy(
             X=torch.arange(len(ck)),
             y=smiles_ck["id"],
             ids=smiles_ck["smiles"]

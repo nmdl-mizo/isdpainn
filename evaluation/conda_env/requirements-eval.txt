@@ -1,0 +1,7 @@
+wandb
+pymatgen
+git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
+git+https://github.com/nmdl-mizo/castep_elnes_parser@main#egg=castep-elnes-parser
+git+https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn
+ck_edge_maker[pyg] @ git+https://github.com/nmdl-mizo/ck_edge_maker@main
+#deepchem # only for scaffold split, must be installed separately due to version conflicts with pymatgen
