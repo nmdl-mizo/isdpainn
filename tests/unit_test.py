@@ -4,7 +4,7 @@ import torch
 from torch_geometric.data import Data, Batch
 from isdpainn.model import ISDPaiNN, ISDPaiNNMessage, ISDPaiNNUpdate
 from isdpainn.utils import rotation_matrix, make_data_batch, rotate_data, invert_data
-from ocpmodels.models.painn.painn import PaiNNMessage
+from fairchem.core.models.painn.painn import PaiNNMessage
 
 
 class TestISDPaiNN(unittest.TestCase):
