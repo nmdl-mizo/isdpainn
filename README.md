@@ -21,7 +21,7 @@ The main changes from the PaiNN model are as follows:
 
 These changes enable to regress physical properties not only on molecular graph but also orientation relative to the graph.
 
-The code is developed based on the implementation of PaiNN in [`ocp-models.models.painn`](https://github.com/Open-Catalyst-Project/ocp/tree/main/ocpmodels/models/painn).
+The code is developed based on the implementation of PaiNN in [`fairchem.core.models.painn`](https://github.com/FAIR-Chem/fairchem/tree/main/src/fairchem/core/models/painn).
 
 ## Installation
 
@@ -30,26 +30,18 @@ The code is developed based on the implementation of PaiNN in [`ocp-models.model
 - A GPU is highly recommended for training and inference. The GPU should be compatible with CUDA 12.1.
 
 ### Using conda
-Install `pytorch`, `torch_geometric`, and `ocp-models` in advance depending on your environment (GPU/CPU).
+Install `pytorch`, `torch_geometric`, and `fairchem-core` in advance depending on your environment (GPU/CPU).
     - [pytorch](https://pytorch.org/)
     - [torch_geometric](https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html)
-    - [ocp-models](https://github.com/Open-Catalyst-Project/ocp/blob/main/INSTALL.md)
+    - [fairchem](https://fair-chem.github.io/core/install.html)
 
 These packages can be installed using conda.
-Conda environment and pip requirements files can be used for creating environment easily:
+Conda environment for installing isdpainn can be easily created by .yml file provided by FAIR-Chem/fairchem:
 ```
-conda 
-git clone git@github.com:nmdl-mizo/isdpainn.git
-cd isdpainn/conda_env
-conda env create -f environment.yaml
+wget https://raw.githubusercontent.com/FAIR-Chem/fairchem/main/packages/env.gpu.yml
+conda env create -f env.gpu.yml -n isdpainn
 conda activate isdpainn
-pip install -r requirements.txt
-```
-Or, conda environment can be created by specifying packages:
-```
-conda create -n isdpainn python=3.10 pytorch=2.1.0 torchvision torchaudio pytorch-cuda=12.1 pyg=2.4.0 pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pytorch -c nvidia -c pyg
-conda activate isdpainn
-pip install git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
+pip install fairchem-core
 ```
 
 Then, run the following to install directly from GitHub.
