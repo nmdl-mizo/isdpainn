@@ -17,6 +17,6 @@ COPY . /tmp
 RUN wget https://raw.githubusercontent.com/FAIR-Chem/fairchem/main/packages/env.gpu.yml -P /tmp
 RUN conda env update -n base -f /tmp/env.gpu.yml && \
     conda clean -afy
-RUN pip install fairchem
+RUN pip install fairchem-core
 RUN pip install /tmp[dev] && \
     rm -rf /root/.cache/pip/*
