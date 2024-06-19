@@ -13,22 +13,10 @@ You can use the package list files provided in `evaluation/conda_env` for easy c
 ```bash
 git clone git@github.com:nmdl-mizo/isdpainn.git
 cd isdpainn/evaluation/conda_env
-conda env create -f environment-eval.yaml
+wget https://raw.githubusercontent.com/FAIR-Chem/fairchem/main/packages/env.gpu.yml
+conda env create -f env.gpu.yml -n isdpainn-eval
 conda activate isdpainn-eval
 pip install -r requirements-eval.txt
-pip install deepchem # for scaffold split
-```
-
-Alternatively, run the following:
-
-```bash
-conda create -n isdpainn-eval python=3.10 pytorch=2.1.0 torchvision torchaudio pytorch-cuda=12.1 pyg=2.4.0 pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv matplotlib tqdm scikit-learn seaborn -c pytorch -c nvidia -c pyg
-conda activate isdpainn-eval
-pip install wandb pymatgen
-pip install git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
-pip install git+https://github.com/nmdl-mizo/isdpainn.git@main#egg=isdpainn
-pip install "ck_edge_maker[pyg] @ git+https://github.com/nmdl-mizo/ck_edge_maker@main"
-pip install git+https://github.com/nmdl-mizo/castep_elnes_parser@main#egg=ceparser
 pip install deepchem # for scaffold split
 ```
 
