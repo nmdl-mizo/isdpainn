@@ -37,7 +37,7 @@ Install `pytorch`, `torch_geometric`, and `fairchem-core` in advance depending o
 
 These packages can be installed using conda.
 Conda environment for installing isdpainn can be easily created by .yml file provided by FAIR-Chem/fairchem:
-```
+```sh
 wget https://raw.githubusercontent.com/FAIR-Chem/fairchem/main/packages/env.gpu.yml
 conda env create -f env.gpu.yml -n isdpainn
 conda activate isdpainn
@@ -143,7 +143,7 @@ url={https://openreview.net/forum?id=iSFsLFsGYX}
 ## References
 - PaiNN [schütt2021equivariant]
 - ocp by Open Catalyst Project [ocp_dataset]
-```
+```bibtex
 @misc{schütt2021equivariant,
       title={Equivariant message passing for the prediction of tensorial properties and molecular spectra}, 
       author={Kristof T. Schütt and Oliver T. Unke and Michael Gastegger},
