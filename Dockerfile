@@ -1,9 +1,9 @@
 # Use the specified base image
-FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime
+FROM pytorch/pytorch:2.2.2-cuda12.1-cudnn8-runtime
 
 # Install git
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git && \
+    apt-get install -y --no-install-recommends git g++ wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -14,8 +14,9 @@ WORKDIR /workspace
 COPY . /tmp
 
 # Install the necessary packages
-RUN conda install -qy pyg=2.4.0 pytorch-scatter pytorch-sparse pytorch-cluster pytorch-spline-conv -c pyg && \
+RUN wget https://raw.githubusercontent.com/FAIR-Chem/fairchem/main/packages/env.gpu.yml -P /tmp
+RUN conda env update -n base -f /tmp/env.gpu.yml && \
     conda clean -afy
-RUN pip install -e git+https://github.com/Open-Catalyst-Project/ocp.git@main#egg=ocp-models
+RUN pip install fairchem
 RUN pip install /tmp[dev] && \
     rm -rf /root/.cache/pip/*
