@@ -39,9 +39,10 @@ These packages can be installed using conda.
 Conda environment for installing isdpainn can be easily created by .yml file provided by FAIR-Chem/fairchem:
 ```sh
 wget https://raw.githubusercontent.com/FAIR-Chem/fairchem/main/packages/env.gpu.yml
+sed -i '/dependencies:/a\  - python=3.11' env.gpu.yml
 conda env create -f env.gpu.yml -n isdpainn
 conda activate isdpainn
-pip install fairchem-core
+pip install fairchem-core==1.0.0
 ```
 
 Then, run the following to install directly from GitHub.
